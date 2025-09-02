@@ -33,7 +33,7 @@ export const metadata: Metadata = {
     default: "SoulRoute®",
   },
   description:
-    "We stand at the forefront of a new era, where creativity meets technology to redefine what's possible. Our mission is to empower individuals and businesses alike with groundbreaking solutions that inspire change and drive progress.",
+    "Making campus mental health care accessible, private, and immediate. AI support, professional counselors, and peer communities in your pocket - available 24/7 without stigma.",
     generator: 'SoulRoute'
 }
 
