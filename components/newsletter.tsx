@@ -91,7 +91,7 @@ export const Newsletter = () => {
                     <motion.input
                       autoCapitalize="off"
                       autoComplete="email"
-                      placeholder="Enter your email"
+                      placeholder="Start your journey to better well-being"
                       className={inputVariants()}
                       initial={isInitialRender.current ? false : { opacity: 0 }}
                       animate={{ opacity: 1 }}
