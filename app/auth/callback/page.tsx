@@ -1,12 +1,12 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
 import { Background } from "@/components/background";
 import Link from "next/link";
 
-export default function AuthCallbackPage() {
+function AuthCallbackContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [status, setStatus] = useState<'loading' | 'success' | 'error'>('loading');
@@ -145,5 +145,42 @@ export default function AuthCallbackPage() {
         </div>
       </div>
     </main>
+  );
+}
+
+export default function AuthCallbackPage() {
+  return (
+    <Suspense fallback={
+      <main className="h-[100dvh] w-full">
+        <div className="relative h-full w-full">
+          <Background 
+            src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/alt-g7Cv2QzqL3k6ey3igjNYkM32d8Fld7.mp4" 
+            placeholder="/alt-placeholder.png" 
+          />
+          
+          <div className="flex overflow-hidden relative flex-col gap-4 justify-center items-center pt-10 w-full h-full px-sides pb-footer-safe-area">
+            <Link href="/" className="block mb-8">
+              <h1 className="font-serif text-4xl italic text-foreground hover:opacity-80 transition-opacity">
+                SoulRoute
+              </h1>
+            </Link>
+
+            <div className="w-full max-w-md">
+              <div className="backdrop-blur-2xl bg-primary/30 border-2 border-border/60 rounded-3xl p-8 shadow-button text-center">
+                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-foreground mx-auto mb-4"></div>
+                <h2 className="text-xl font-semibold text-foreground mb-2">
+                  Loading...
+                </h2>
+                <p className="text-foreground/80">
+                  Please wait while we prepare the page.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </main>
+    }>
+      <AuthCallbackContent />
+    </Suspense>
   );
 }
