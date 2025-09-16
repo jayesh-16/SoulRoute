@@ -10,13 +10,16 @@ import { motion } from "framer-motion";
 import { ArrowRightIcon, EyeOpenIcon, EyeNoneIcon } from "@radix-ui/react-icons";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { Checkbox } from "@/components/ui/checkbox";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Background } from "@/components/background";
 import { cn } from "@/lib/utils";
+import { login } from "@/lib/actions/auth";
 
 const loginSchema = z.object({
   email: z.string().email("Please enter a valid email address"),
   password: z.string().min(1, "Password is required"),
+  rememberMe: z.boolean(),
 });
 
 type LoginSchema = z.infer<typeof loginSchema>;
@@ -27,6 +30,7 @@ const EASE_OUT = "easeOut";
 export default function LoginPage() {
   const [showPassword, setShowPassword] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [error, setError] = useState<string | null>(null);
   const router = useRouter();
 
   const form = useForm<LoginSchema>({
@@ -34,20 +38,48 @@ export default function LoginPage() {
     defaultValues: {
       email: "",
       password: "",
+      rememberMe: false,
     },
   });
 
   const onSubmit = async (values: LoginSchema) => {
     setIsSubmitting(true);
+    setError(null);
+    
     try {
-      // TODO: Implement actual login logic
-      console.log("Login values:", values);
-      // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      // For now, redirect to home page
-      router.push("/");
+      const formData = new FormData();
+      formData.append('email', values.email);
+      formData.append('password', values.password);
+      formData.append('rememberMe', values.rememberMe.toString());
+      
+      const result = await login(formData);
+      
+      if (result.success) {
+        // Role-based redirect logic
+        if (result.data === "ADMIN_LOGIN") {
+          router.push("/admin");
+        } else if (result.data === "STUDENT_LOGIN") {
+          router.push("/student");
+        } else if (result.data === "COUNSELOR_LOGIN") {
+          router.push("/counselor");
+        } else {
+          // Fallback to dashboard for any other case
+          router.push("/dashboard");
+        }
+      } else {
+        if (result.message === "PENDING_APPROVAL") {
+          // User exists but not approved yet
+          router.push("/waiting-approval");
+        } else if (result.message === "PROFILE_SETUP_REQUIRED") {
+          // User needs to complete profile setup
+          router.push("/profile-setup");
+        } else {
+          setError(result.message);
+        }
+      }
     } catch (error) {
       console.error("Login error:", error);
+      setError("An unexpected error occurred. Please try again.");
     } finally {
       setIsSubmitting(false);
     }
@@ -69,7 +101,7 @@ export default function LoginPage() {
           >
             <Link href="/" className="block mb-8">
               <h1 className="font-serif text-4xl italic text-foreground hover:opacity-80 transition-opacity">
-                SoulRoute®
+                SoulRoute
               </h1>
             </Link>
           </motion.div>
@@ -80,7 +112,7 @@ export default function LoginPage() {
             transition={{ duration: DURATION, ease: EASE_OUT, delay: 0.1 }}
             className="w-full max-w-md"
           >
-            <div className="backdrop-blur-xl bg-primary/20 border-2 border-border/50 rounded-3xl p-8 shadow-button">
+            <div className="backdrop-blur-2xl bg-primary/30 border-2 border-border/60 rounded-3xl p-8 shadow-button">
               <div className="text-center mb-6">
                 <h2 className="text-2xl font-semibold text-foreground mb-2">
                   Welcome Back
@@ -92,6 +124,11 @@ export default function LoginPage() {
 
               <Form {...form}>
                 <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+                  {error && (
+                    <div className="bg-destructive/10 border border-destructive/20 rounded-lg p-3 text-sm text-destructive">
+                      {error}
+                    </div>
+                  )}
                   <FormField
                     control={form.control}
                     name="email"
@@ -139,6 +176,26 @@ export default function LoginPage() {
                           </div>
                         </FormControl>
                         <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+
+                  <FormField
+                    control={form.control}
+                    name="rememberMe"
+                    render={({ field }) => (
+                      <FormItem className="flex flex-row items-start space-x-3 space-y-0">
+                        <FormControl>
+                          <Checkbox
+                            checked={field.value}
+                            onCheckedChange={field.onChange}
+                          />
+                        </FormControl>
+                        <div className="space-y-1 leading-none">
+                          <FormLabel className="text-sm text-foreground/80">
+                            Remember me for 30 days
+                          </FormLabel>
+                        </div>
                       </FormItem>
                     )}
                   />

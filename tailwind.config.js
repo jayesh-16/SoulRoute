@@ -31,6 +31,13 @@ module.exports = {
       },
       animation: {
         shine: "shine 2s ease-in-out infinite",
+        "gradient-x": "gradient-x 15s ease infinite",
+      },
+      keyframes: {
+        "gradient-x": {
+          "0%, 100%": { backgroundPosition: "0% 50%" },
+          "50%": { backgroundPosition: "100% 50%" },
+        },
       },
       fontFamily: {
         serif: ["var(--font-instrument-serif)", "serif"],

@@ -52,7 +52,7 @@ export const Newsletter = () => {
         transition={{ duration: DURATION, ease: EASE_OUT }}
       >
         <h1 className="font-serif text-5xl italic short:lg:text-8xl sm:text-8xl lg:text-9xl text-foreground">
-          SoulRoute®
+          SoulRoute
         </h1>
       </motion.div>
 
@@ -223,7 +223,7 @@ export const Newsletter = () => {
                   transition: { duration: DURATION, ease: EASE_OUT_OPACITY },
                 },
               }}
-              className="relative flex min-h-0 flex-shrink overflow-hidden text-sm md:text-base max-h-[calc(70dvh-var(--footer-safe-area))] flex-col gap-8 text-center backdrop-blur-xl text-balance border-2 border-border/50 bg-primary/20 max-w-3xl text-foreground rounded-3xl ring-1 ring-offset-primary/10 ring-border/10 ring-offset-2 shadow-button"
+              className="relative flex min-h-0 flex-shrink overflow-hidden text-sm md:text-base max-h-[calc(70dvh-var(--footer-safe-area))] flex-col gap-8 text-center backdrop-blur-3xl text-balance border-2 border-border/60 bg-primary/40 max-w-3xl text-foreground rounded-3xl ring-1 ring-offset-primary/10 ring-border/10 ring-offset-2 shadow-button"
             >
               <article className="relative overflow-y-auto italic p-6 h-full [&_p]:my-4">
                 <p>
