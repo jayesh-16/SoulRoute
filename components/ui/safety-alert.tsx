@@ -11,9 +11,9 @@ import {
   Cross2Icon,
   ChatBubbleIcon,
   EnvelopeClosedIcon,
-  PhoneIcon,
   HeartIcon
 } from '@radix-ui/react-icons';
+import { Phone } from 'lucide-react';
 
 interface SafetyAlertProps {
   onContactCounselor: () => void;
@@ -94,7 +94,7 @@ export function SafetyAlert({
 
                 <Button
                   onClick={onEmailSupport}
-                  variant="outline"
+                  variant="ghost"
                   className="w-full h-auto p-4 border-2"
                 >
                   <div className="flex items-center gap-3 w-full">
@@ -108,11 +108,11 @@ export function SafetyAlert({
 
                 <Button
                   onClick={onViewEmergencyContacts}
-                  variant="outline"
+                  variant="ghost"
                   className="w-full h-auto p-4 border-2 border-red-200 dark:border-red-800"
                 >
                   <div className="flex items-center gap-3 w-full">
-                    <PhoneIcon className="w-5 h-5 text-red-600 dark:text-red-400" />
+                    <Phone className="w-5 h-5 text-red-600 dark:text-red-400" />
                     <div className="text-left flex-1">
                       <div className="font-semibold text-red-700 dark:text-red-300">Emergency Contacts</div>
                       <div className="text-sm text-red-600 dark:text-red-400">Crisis hotlines and immediate help</div>

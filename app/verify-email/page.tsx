@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, Suspense } from "react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { motion } from "framer-motion";
@@ -12,7 +12,7 @@ import { createClient } from "@/lib/supabase/client";
 const DURATION = 0.3;
 const EASE_OUT = "easeOut";
 
-export default function VerifyEmailPage() {
+function VerifyEmailContent() {
   const [isVerifying, setIsVerifying] = useState(false);
   const [isVerified, setIsVerified] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -255,5 +255,42 @@ export default function VerifyEmailPage() {
         </div>
       </div>
     </main>
+  );
+}
+
+export default function VerifyEmailPage() {
+  return (
+    <Suspense fallback={
+      <main className="h-[100dvh] w-full">
+        <div className="relative h-full w-full">
+          <Background 
+            src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/alt-g7Cv2QzqL3k6ey3igjNYkM32d8Fld7.mp4" 
+            placeholder="/alt-placeholder.png" 
+          />
+          
+          <div className="flex overflow-hidden relative flex-col gap-4 justify-center items-center pt-10 w-full h-full px-sides pb-footer-safe-area">
+            <Link href="/" className="block mb-8">
+              <h1 className="font-serif text-4xl italic text-foreground hover:opacity-80 transition-opacity">
+                SoulRoute
+              </h1>
+            </Link>
+
+            <div className="w-full max-w-md">
+              <div className="backdrop-blur-2xl bg-primary/30 border-2 border-border/60 rounded-3xl p-8 shadow-button text-center">
+                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-foreground mx-auto mb-4"></div>
+                <h2 className="text-xl font-semibold text-foreground mb-2">
+                  Loading...
+                </h2>
+                <p className="text-foreground/80">
+                  Please wait while we prepare the page.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </main>
+    }>
+      <VerifyEmailContent />
+    </Suspense>
   );
 }
