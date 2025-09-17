@@ -180,18 +180,18 @@ export function NextSteps({
 
   return (
     <div className="space-y-6">
-      <div className="flex items-center gap-3 mb-4">
-        <Badge variant={getPriorityColor(recommendations.priority)}>
+      <div className="flex flex-col sm:flex-row items-start sm:items-center gap-2 sm:gap-3 mb-4">
+        <Badge variant={getPriorityColor(recommendations.priority)} className="text-xs sm:text-sm">
           {recommendations.priority.toUpperCase()} PRIORITY
         </Badge>
-        <h3 className="text-xl font-semibold">{recommendations.title}</h3>
+        <h3 className="text-lg sm:text-xl font-semibold">{recommendations.title}</h3>
       </div>
       
-      <p className="text-muted-foreground text-lg mb-6">
+      <p className="text-muted-foreground text-base sm:text-lg mb-4 sm:mb-6">
         {recommendations.description}
       </p>
 
-      <div className="grid gap-4 md:grid-cols-1 lg:grid-cols-2 xl:grid-cols-3">
+      <div className="grid gap-3 sm:gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
         {recommendations.actions.map((action, index) => (
           <motion.div
             key={index}
@@ -207,29 +207,29 @@ export function NextSteps({
               }`}
               onClick={action.action}
             >
-              <CardHeader className="pb-3">
-                <div className="flex items-center gap-3">
-                  <div className={`p-2 rounded-lg ${
+              <CardHeader className="pb-3 p-3 sm:p-4 lg:p-6">
+                <div className="flex items-center gap-2 sm:gap-3">
+                  <div className={`p-1.5 sm:p-2 rounded-lg ${
                     action.urgent 
                       ? 'bg-red-100 dark:bg-red-900/20' 
                       : 'bg-primary/10'
                   }`}>
-                    <action.icon className={`w-5 h-5 ${
+                    <action.icon className={`w-4 h-4 sm:w-5 sm:h-5 ${
                       action.urgent 
                         ? 'text-red-600 dark:text-red-400' 
                         : 'text-primary'
                     }`} />
                   </div>
-                  <CardTitle className="text-lg">{action.title}</CardTitle>
+                  <CardTitle className="text-base sm:text-lg">{action.title}</CardTitle>
                 </div>
               </CardHeader>
-              <CardContent>
-                <p className="text-muted-foreground mb-4">
+              <CardContent className="p-3 sm:p-4 lg:p-6">
+                <p className="text-muted-foreground mb-3 sm:mb-4 text-sm sm:text-base">
                   {action.description}
                 </p>
                 <Button 
                   variant={action.variant}
-                  className="w-full"
+                  className="w-full text-sm sm:text-base py-2 sm:py-2.5"
                   onClick={(e) => {
                     e.stopPropagation();
                     action.action();

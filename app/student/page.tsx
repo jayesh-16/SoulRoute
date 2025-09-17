@@ -356,19 +356,19 @@ export default function StudentPage() {
                       </ResponsiveContainer>
                     </div>
                     
-                    <div className="flex items-center justify-between mt-4">
-                      <div className="flex items-center space-x-4">
+                    <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mt-4 gap-3 sm:gap-4">
+                      <div className="flex flex-col sm:flex-row items-start sm:items-center space-y-2 sm:space-y-0 sm:space-x-4 w-full sm:w-auto">
                         <div className="flex items-center space-x-2">
                           <div className="w-3 h-3 bg-purple-500 rounded-full" />
-                          <span className="text-sm text-gray-600">PHQ-9 (Depression)</span>
+                          <span className="text-xs sm:text-sm text-gray-600">PHQ-9 (Depression)</span>
                         </div>
                         <div className="flex items-center space-x-2">
                           <div className="w-3 h-3 bg-blue-500 rounded-full" />
-                          <span className="text-sm text-gray-600">GAD-7 (Anxiety)</span>
+                          <span className="text-xs sm:text-sm text-gray-600">GAD-7 (Anxiety)</span>
                         </div>
                       </div>
-                      <Link href="/wellbeing/checkin">
-                        <Button className="bg-gradient-to-r from-purple-500 to-purple-600 text-white rounded-full text-sm">
+                      <Link href="/wellbeing/checkin" className="w-full sm:w-auto">
+                        <Button className="bg-gradient-to-r from-purple-500 to-purple-600 hover:from-purple-600 hover:to-purple-700 text-white rounded-full text-xs sm:text-sm lg:text-base px-4 py-2 sm:px-6 sm:py-2 lg:px-8 lg:py-3 w-full sm:w-auto transition-all duration-200 shadow-md hover:shadow-lg">
                           Take Assessment
                         </Button>
                       </Link>

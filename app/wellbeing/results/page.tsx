@@ -73,13 +73,13 @@ function ResultsContent() {
         return 'destructive';
       case 'MODERATE':
       case 'POSSIBLE DISTRESS':
-        return 'secondary';
+        return 'default';
       case 'MILD':
       case 'LOW':
       case 'MINIMAL':
-        return 'outline';
+        return 'default';
       default:
-        return 'outline';
+        return 'default';
     }
   };
 
@@ -90,11 +90,11 @@ function ResultsContent() {
       case 'HIGH':
         return 'destructive';
       case 'MODERATE':
-        return 'secondary';
+        return 'default';
       case 'LOW':
         return 'default';
       default:
-        return 'outline';
+        return 'default';
     }
   };
 
@@ -220,26 +220,27 @@ function ResultsContent() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.3 }}
-              className="mb-8"
+              className="mb-6 sm:mb-8"
             >
-              <Card className="bg-white border-2 border-blue-600 shadow-xl rounded-xl border-t-4 border-t-blue-800">
-                <CardHeader className="text-center">
-                  <CardTitle className="text-2xl mb-2 text-gray-900">Overall Wellbeing Category</CardTitle>
+              <Card className="bg-white border border-gray-200 shadow-lg rounded-xl overflow-hidden relative">
+                <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-blue-800 to-blue-400"></div>
+                <CardHeader className="text-center p-3 sm:p-4 lg:p-6">
+                  <CardTitle className="text-lg sm:text-xl lg:text-2xl mb-2 text-gray-900">Overall Wellbeing Category</CardTitle>
                   <div className="flex justify-center">
-                    <Badge className={`text-lg px-6 py-2 rounded-full ${
-                      results.overall === 'CRISIS_ALERT' ? 'bg-red-100 text-red-800' :
-                      results.overall === 'HIGH' ? 'bg-orange-100 text-orange-800' :
-                      results.overall === 'MODERATE' ? 'bg-yellow-100 text-yellow-800' :
-                      'bg-green-100 text-green-800'
+                    <Badge className={`text-sm sm:text-base lg:text-lg px-4 py-2 sm:px-6 sm:py-2 rounded-full font-medium border-2 ${
+                      results.overall === 'CRISIS_ALERT' ? 'bg-red-100 text-red-800 border-red-200' :
+                      results.overall === 'HIGH' ? 'bg-red-100 text-red-800 border-red-200' :
+                      results.overall === 'MODERATE' ? 'bg-orange-100 text-orange-800 border-orange-200' :
+                      'bg-green-100 text-green-800 border-green-200'
                     }`}>
                       {results.overall.replace('_', ' ')}
                     </Badge>
                   </div>
                 </CardHeader>
-                <CardContent>
+                <CardContent className="p-3 sm:p-4 lg:p-6">
                   <Alert className="bg-blue-50 border-blue-200">
                     <InfoCircledIcon className="h-4 w-4 text-blue-600" />
-                    <AlertDescription className="text-blue-800">
+                    <AlertDescription className="text-blue-800 text-sm sm:text-base">
                       This overall category is based on your responses across all four assessments. 
                       Below you'll find detailed results for each area and personalized recommendations.
                     </AlertDescription>
@@ -253,25 +254,35 @@ function ResultsContent() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.4 }}
-              className="grid gap-6 md:grid-cols-2 mb-8"
+              className="grid gap-4 sm:gap-6 grid-cols-1 md:grid-cols-2 mb-6 sm:mb-8"
             >
               {/* PHQ-9 */}
-              <Card className="bg-white border-2 border-blue-600 shadow-xl">
+              <Card className="bg-white border border-gray-200 shadow-lg rounded-xl overflow-hidden relative">
+                <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-blue-800 to-blue-400"></div>
                 <CardHeader className="pb-3">
-                  <CardTitle className="text-lg flex items-center justify-between text-gray-900">
-                    PHQ-9 (Depression)
-                    <Badge variant={getCategoryColor(results.phq9.category)}>
+                  <CardTitle className="text-sm sm:text-base lg:text-lg flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 text-gray-900">
+                    <span>PHQ-9 (Depression)</span>
+                    <Badge 
+                      variant={getCategoryColor(results.phq9.category)} 
+                      className={`text-xs sm:text-sm font-medium ${
+                        results.phq9.category.toUpperCase().includes('SEVERE') || results.phq9.category.toUpperCase().includes('HIGH')
+                          ? 'bg-red-100 text-red-800 border-red-200'
+                          : results.phq9.category.toUpperCase().includes('MODERATE')
+                          ? 'bg-orange-100 text-orange-800 border-orange-200'
+                          : 'bg-green-100 text-green-800 border-green-200'
+                      }`}
+                    >
                       {results.phq9.category}
                     </Badge>
                   </CardTitle>
                 </CardHeader>
-                <CardContent>
+                <CardContent className="p-3 sm:p-4 lg:p-6">
                   <div className="space-y-3">
                     <div className="flex justify-between items-center">
-                      <span className="text-2xl font-bold text-gray-900">
+                      <span className="text-xl sm:text-2xl font-bold text-gray-900">
                         {results.phq9.score}/{results.phq9.maxScore}
                       </span>
-                      <span className="text-sm text-gray-600">
+                      <span className="text-xs sm:text-sm text-gray-600">
                         {Math.round((results.phq9.score / results.phq9.maxScore) * 100)}%
                       </span>
                     </div>
@@ -279,7 +290,7 @@ function ResultsContent() {
                       value={(results.phq9.score / results.phq9.maxScore) * 100} 
                       className="h-2"
                     />
-                    <p className="text-sm text-gray-600">
+                    <p className="text-xs sm:text-sm text-gray-600">
                       Depression symptoms over the past 2 weeks
                     </p>
                   </div>
@@ -287,22 +298,32 @@ function ResultsContent() {
               </Card>
 
               {/* GAD-7 */}
-              <Card className="bg-white border-2 border-blue-600 shadow-xl">
-                <CardHeader className="pb-3">
-                  <CardTitle className="text-lg flex items-center justify-between text-gray-900">
-                    GAD-7 (Anxiety)
-                    <Badge variant={getCategoryColor(results.gad7.category)}>
+              <Card className="bg-white border border-gray-200 shadow-lg rounded-xl overflow-hidden relative">
+                <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-blue-800 to-blue-400"></div>
+                <CardHeader className="pb-3 p-3 sm:p-4 lg:p-6">
+                  <CardTitle className="text-sm sm:text-base lg:text-lg flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 text-gray-900">
+                    <span>GAD-7 (Anxiety)</span>
+                    <Badge 
+                      variant={getCategoryColor(results.gad7.category)} 
+                      className={`text-xs sm:text-sm font-medium ${
+                        results.gad7.category.toUpperCase().includes('SEVERE') || results.gad7.category.toUpperCase().includes('HIGH')
+                          ? 'bg-red-100 text-red-800 border-red-200'
+                          : results.gad7.category.toUpperCase().includes('MODERATE')
+                          ? 'bg-orange-100 text-orange-800 border-orange-200'
+                          : 'bg-green-100 text-green-800 border-green-200'
+                      }`}
+                    >
                       {results.gad7.category}
                     </Badge>
                   </CardTitle>
                 </CardHeader>
-                <CardContent>
+                <CardContent className="p-3 sm:p-4 lg:p-6">
                   <div className="space-y-3">
                     <div className="flex justify-between items-center">
-                      <span className="text-2xl font-bold text-gray-900">
+                      <span className="text-xl sm:text-2xl font-bold text-gray-900">
                         {results.gad7.score}/{results.gad7.maxScore}
                       </span>
-                      <span className="text-sm text-gray-600">
+                      <span className="text-xs sm:text-sm text-gray-600">
                         {Math.round((results.gad7.score / results.gad7.maxScore) * 100)}%
                       </span>
                     </div>
@@ -310,7 +331,7 @@ function ResultsContent() {
                       value={(results.gad7.score / results.gad7.maxScore) * 100} 
                       className="h-2"
                     />
-                    <p className="text-sm text-gray-600">
+                    <p className="text-xs sm:text-sm text-gray-600">
                       Anxiety symptoms over the past 2 weeks
                     </p>
                   </div>
@@ -318,22 +339,32 @@ function ResultsContent() {
               </Card>
 
               {/* PSS-10 */}
-              <Card className="bg-white border-2 border-blue-600 shadow-xl">
-                <CardHeader className="pb-3">
-                  <CardTitle className="text-lg flex items-center justify-between text-gray-900">
-                    PSS-10 (Stress)
-                    <Badge variant={getCategoryColor(results.pss10.category)}>
+              <Card className="bg-white border border-gray-200 shadow-lg rounded-xl overflow-hidden relative">
+                <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-blue-800 to-blue-400"></div>
+                <CardHeader className="pb-3 p-3 sm:p-4 lg:p-6">
+                  <CardTitle className="text-sm sm:text-base lg:text-lg flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 text-gray-900">
+                    <span>PSS-10 (Stress)</span>
+                    <Badge 
+                      variant={getCategoryColor(results.pss10.category)} 
+                      className={`text-xs sm:text-sm font-medium ${
+                        results.pss10.category.toUpperCase().includes('SEVERE') || results.pss10.category.toUpperCase().includes('HIGH')
+                          ? 'bg-red-100 text-red-800 border-red-200'
+                          : results.pss10.category.toUpperCase().includes('MODERATE')
+                          ? 'bg-orange-100 text-orange-800 border-orange-200'
+                          : 'bg-green-100 text-green-800 border-green-200'
+                      }`}
+                    >
                       {results.pss10.category}
                     </Badge>
                   </CardTitle>
                 </CardHeader>
-                <CardContent>
+                <CardContent className="p-3 sm:p-4 lg:p-6">
                   <div className="space-y-3">
                     <div className="flex justify-between items-center">
-                      <span className="text-2xl font-bold text-gray-900">
+                      <span className="text-xl sm:text-2xl font-bold text-gray-900">
                         {results.pss10.score}/{results.pss10.maxScore}
                       </span>
-                      <span className="text-sm text-gray-600">
+                      <span className="text-xs sm:text-sm text-gray-600">
                         {Math.round((results.pss10.score / results.pss10.maxScore) * 100)}%
                       </span>
                     </div>
@@ -341,7 +372,7 @@ function ResultsContent() {
                       value={(results.pss10.score / results.pss10.maxScore) * 100} 
                       className="h-2"
                     />
-                    <p className="text-sm text-gray-600">
+                    <p className="text-xs sm:text-sm text-gray-600">
                       Perceived stress levels over the past month
                     </p>
                   </div>
@@ -349,22 +380,32 @@ function ResultsContent() {
               </Card>
 
               {/* GHQ-12 */}
-              <Card className="bg-white border-2 border-blue-600 shadow-xl">
-                <CardHeader className="pb-3">
-                  <CardTitle className="text-lg flex items-center justify-between text-gray-900">
-                    GHQ-12 (General Health)
-                    <Badge variant={getCategoryColor(results.ghq12.category)}>
+              <Card className="bg-white border border-gray-200 shadow-lg rounded-xl overflow-hidden relative">
+                <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-blue-800 to-blue-400"></div>
+                <CardHeader className="pb-3 p-3 sm:p-4 lg:p-6">
+                  <CardTitle className="text-sm sm:text-base lg:text-lg flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 text-gray-900">
+                    <span>GHQ-12 (General Health)</span>
+                    <Badge 
+                      variant={getCategoryColor(results.ghq12.category)} 
+                      className={`text-xs sm:text-sm font-medium ${
+                        results.ghq12.category.toUpperCase().includes('SEVERE') || results.ghq12.category.toUpperCase().includes('HIGH') || results.ghq12.category.toUpperCase().includes('PROBABLE')
+                          ? 'bg-red-100 text-red-800 border-red-200'
+                          : results.ghq12.category.toUpperCase().includes('POSSIBLE')
+                          ? 'bg-orange-100 text-orange-800 border-orange-200'
+                          : 'bg-green-100 text-green-800 border-green-200'
+                      }`}
+                    >
                       {results.ghq12.category}
                     </Badge>
                   </CardTitle>
                 </CardHeader>
-                <CardContent>
+                <CardContent className="p-3 sm:p-4 lg:p-6">
                   <div className="space-y-3">
                     <div className="flex justify-between items-center">
-                      <span className="text-2xl font-bold text-gray-900">
+                      <span className="text-xl sm:text-2xl font-bold text-gray-900">
                         {results.ghq12.score}/{results.ghq12.maxScore}
                       </span>
-                      <span className="text-sm text-gray-600">
+                      <span className="text-xs sm:text-sm text-gray-600">
                         {Math.round((results.ghq12.score / results.ghq12.maxScore) * 100)}%
                       </span>
                     </div>
@@ -372,7 +413,7 @@ function ResultsContent() {
                       value={(results.ghq12.score / results.ghq12.maxScore) * 100} 
                       className="h-2"
                     />
-                    <p className="text-sm text-gray-600">
+                    <p className="text-xs sm:text-sm text-gray-600">
                       General psychological distress indicators
                     </p>
                   </div>
@@ -385,9 +426,9 @@ function ResultsContent() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.5 }}
-              className="mb-8"
+              className="mb-6 sm:mb-8"
             >
-              <h2 className="text-2xl font-bold text-gray-900 mb-6">
+              <h2 className="text-xl sm:text-2xl font-bold text-gray-900 mb-4 sm:mb-6">
                 What you can do next
               </h2>
               <NextSteps
@@ -399,7 +440,7 @@ function ResultsContent() {
               />
             </motion.div>
 
-            <Separator className="my-8" />
+            <Separator className="my-6 sm:my-8" />
 
             {/* Actions */}
             <motion.div
@@ -443,9 +484,9 @@ function ResultsContent() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.7 }}
-              className="mt-8 text-center"
+              className="mt-6 sm:mt-8 text-center px-4"
             >
-              <p className="text-sm text-gray-600 max-w-2xl mx-auto">
+              <p className="text-xs sm:text-sm text-gray-600 max-w-2xl mx-auto leading-relaxed">
                 These results are based on validated screening tools and provide insights 
                 into your current wellbeing. They are not a substitute for professional 
                 diagnosis. You can retake this assessment in 7 days to track changes over time.

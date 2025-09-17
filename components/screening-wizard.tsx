@@ -221,17 +221,17 @@ export function ScreeningWizard({ onComplete, onSkip }: ScreeningWizardProps) {
                 </div>
               </div>
 
-              <div className="flex gap-4 justify-center pt-6 border-t border-blue-200">
+              <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center pt-6 border-t border-blue-200">
                 <Button 
                   variant="ghost" 
                   onClick={onSkip}
-                  className="px-8 py-3 border-2 border-blue-600 hover:bg-blue-50 text-blue-700"
+                  className="px-4 py-2 sm:px-6 sm:py-3 lg:px-8 lg:py-3 border-2 border-blue-600 hover:bg-blue-50 text-blue-700 text-sm sm:text-base w-full sm:w-auto transition-all duration-200"
                 >
                   Skip Assessment
                 </Button>
                 <Button
                   onClick={() => setShowIntro(false)}
-                  className="px-8 py-3 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white shadow-lg hover:shadow-xl transition-all duration-300"
+                  className="px-4 py-2 sm:px-6 sm:py-3 lg:px-8 lg:py-3 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white shadow-lg hover:shadow-xl transition-all duration-300 text-sm sm:text-base w-full sm:w-auto"
                 >
                   Begin Assessment
                 </Button>
@@ -329,20 +329,21 @@ export function ScreeningWizard({ onComplete, onSkip }: ScreeningWizardProps) {
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="flex justify-between items-center mt-8 p-4 bg-blue-50 rounded-lg border border-blue-200"
+            className="flex flex-col sm:flex-row justify-between items-center mt-8 p-3 sm:p-4 bg-blue-50 rounded-lg border border-blue-200 gap-3 sm:gap-4"
           >
             <Button
               variant="ghost"
               onClick={handlePrevious}
               disabled={!canGoBack}
-              className="flex items-center gap-2 border-2 border-blue-600 hover:bg-white text-blue-700"
+              className="flex items-center gap-2 border-2 border-blue-600 hover:bg-white text-blue-700 px-3 py-2 sm:px-4 sm:py-2 text-sm sm:text-base w-full sm:w-auto transition-all duration-200"
             >
               <ChevronLeftIcon className="w-4 h-4" />
-              Previous
+              <span className="hidden sm:inline">Previous</span>
+              <span className="sm:hidden">Back</span>
             </Button>
 
-            <div className="text-center">
-              <p className="text-sm text-gray-600 font-medium">
+            <div className="text-center order-first sm:order-none">
+              <p className="text-xs sm:text-sm text-gray-600 font-medium">
                 Select an answer to continue
               </p>
             </div>
@@ -350,9 +351,10 @@ export function ScreeningWizard({ onComplete, onSkip }: ScreeningWizardProps) {
             <Button
               variant="ghost"
               onClick={onSkip}
-              className="text-blue-700 border-2 border-blue-600 hover:bg-white"
+              className="text-blue-700 border-2 border-blue-600 hover:bg-white px-3 py-2 sm:px-4 sm:py-2 text-sm sm:text-base w-full sm:w-auto transition-all duration-200"
             >
-              Skip Assessment
+              <span className="hidden sm:inline">Skip Assessment</span>
+              <span className="sm:hidden">Skip</span>
             </Button>
           </motion.div>
       </div>
